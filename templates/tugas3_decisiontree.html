@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% set title = "Tugas 3 - Decision Tree" %}
+{% block content %}
+
+<h2 class="text-center mb-4">🌳 Decision Tree – Play Golf (ID3)</h2>
+
+<h5>Dataset</h5>
+<div class="table-responsive">
+    {{ df|safe }}
+</div>
+
+<hr>
+
+<h5 class="mt-4 mb-3">📝 Manual Tree (ID3)</h5>
+<pre>{{ tree_text }}</pre>
+
+<hr>
+
+<h5 class="mt-4 mb-3">🌲 Tree Visualization</h5>
+<img src="{{ img_path }}" class="img-fluid" alt="Decision Tree">
+
+<hr>
+
+<h5 class="mt-4 mb-3">🔍 Prediksi User</h5>
+<form method="POST">
+    <div class="mb-3">
+        <label>Outlook:</label>
+        <select name="Outlook" class="form-select" required>
+            <option value="Sunny">Sunny</option>
+            <option value="Overcast">Overcast</option>
+            <option value="Rainy">Rainy</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Temperature:</label>
+        <select name="Temperature" class="form-select" required>
+            <option value="Hot">Hot</option>
+            <option value="Mild">Mild</option>
+            <option value="Cool">Cool</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Humidity:</label>
+        <select name="Humidity" class="form-select" required>
+            <option value="High">High</option>
+            <option value="Normal">Normal</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Windy:</label>
+        <select name="Windy" class="form-select" required>
+            <option value="False">False</option>
+            <option value="True">True</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Prediksi</button>
+</form>
+
+{% if user_result %}
+<hr class="my-4">
+
+<div class="card mx-auto mt-4" style="max-width: 600px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+    <div class="card-body text-center">
+        <h4 class="card-title mb-3">🌟 Hasil Prediksi User</h4>
+
+        <p class="mb-2"><strong>Prediksi:</strong>
+            <span class="badge bg-primary fs-5">{{ user_result }}</span>
+        </p>
+
+        <h6 class="mt-3">🔹 Detail Input:</h6>
+        <ul class="list-group list-group-flush text-start">
+            <li class="list-group-item">Outlook: <strong>{{ input_data.Outlook }}</strong></li>
+            <li class="list-group-item">Temperature: <strong>{{ input_data.Temperature }}</strong></li>
+            <li class="list-group-item">Humidity: <strong>{{ input_data.Humidity }}</strong></li>
+            <li class="list-group-item">Windy: <strong>{{ input_data.Windy }}</strong></li>
+        </ul>
+
+        <p class="mt-2 text-muted" style="font-size: 0.9rem;">
+            Hasil prediksi ini didasarkan pada manual ID3 Decision Tree yang ditampilkan di atas.
+        </p>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

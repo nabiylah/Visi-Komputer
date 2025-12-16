@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="text-center mb-4">📊 Ekstraksi Fitur Tekstur GLCM</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label class="form-label fw-semibold">Unggah Gambar:</label>
+        <input class="form-control" type="file" name="image" accept="image/*" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-semibold">Pilih Sudut (derajat):</label>
+        <select class="form-select" name="angle" required>
+            {% for a in [0,45,90,135,180,225,270,315] %}
+                <option value="{{ a }}">{{ a }}°</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Proses</button>
+</form>
+
+{% if result %}
+<hr>
+<h3 class="text-center mb-3">📈 Hasil Fitur GLCM</h3>
+<div class="text-center">
+    <p><strong>Arah:</strong> {{ angle }}°</p>
+    <p><strong>Contrast:</strong> {{ '%.4f'|format(result['Contrast']) }}</p>
+    <p><strong>Correlation:</strong> {{ '%.4f'|format(result['Correlation']) }}</p>
+    <p><strong>Energy:</strong> {{ '%.4f'|format(result['Energy']) }}</p>
+    <p><strong>Homogeneity:</strong> {{ '%.4f'|format(result['Homogeneity']) }}</p>
+    <a href="/" class="btn btn-link">⬅ Kembali ke Beranda</a>
+</div>
+{% endif %}
+{% endblock %}

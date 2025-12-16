@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="text-center mb-4">📈 KNN (Prediksi Stunting & Wasting)</h2>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-danger">
+  <ul class="mb-0">
+    {% for m in messages %}
+    <li>{{ m }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+{% endwith %}
+
+<form method="POST">
+
+  <div class="mb-3">
+    <label class="form-label fw-semibold">Jenis Kelamin:</label>
+    <select class="form-select" name="gender" required>
+      <option value="0">Laki-laki</option>
+      <option value="1">Perempuan</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-semibold">Umur (bulan):</label>
+    <input class="form-control" type="number" name="age" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-semibold">Tinggi Badan (cm):</label>
+    <input class="form-control" type="number" step="0.1" name="height" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-semibold">Berat Badan (kg):</label>
+    <input class="form-control" type="number" step="0.1" name="weight" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-semibold">Nilai K:</label>
+    <input class="form-control" type="number" min="1" name="k" value="3" required>
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100">Prediksi</button>
+</form>
+
+{% if result %}
+<hr>
+<h3 class="text-center mb-3">📈 Hasil Prediksi</h3>
+
+<div class="text-center mb-4">
+    <p>Stunting: <strong>{{ result.stunting }}</strong></p>
+    <p>Wasting: <strong>{{ result.wasting }}</strong></p>
+</div>
+{% endif %}
+
+{% if evaluation %}
+<hr>
+
+<h4 class="text-center mt-4">📏 Evaluasi Model</h4>
+
+<div class="row justify-content-center mt-3">
+    <div class="col-md-5">
+        <div class="card p-3 mb-3">
+            <h5 class="text-center">Stunting</h5>
+            <p>Akurasi: {{ '%.3f'|format(evaluation.stunting.accuracy) }}</p>
+            <p>Precision: {{ '%.3f'|format(evaluation.stunting.precision) }}</p>
+            <p>Recall: {{ '%.3f'|format(evaluation.stunting.recall) }}</p>
+            <p>F1 Score: {{ '%.3f'|format(evaluation.stunting.f1) }}</p>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card p-3 mb-3">
+            <h5 class="text-center">Wasting</h5>
+            <p>Akurasi: {{ '%.3f'|format(evaluation.wasting.accuracy) }}</p>
+            <p>Precision: {{ '%.3f'|format(evaluation.wasting.precision) }}</p>
+            <p>Recall: {{ '%.3f'|format(evaluation.wasting.recall) }}</p>
+            <p>F1 Score: {{ '%.3f'|format(evaluation.wasting.f1) }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-3">
+    <a href="/" class="btn btn-link">⬅ Kembali ke Beranda</a>
+</div>
+{% endif %}
+
+{% endblock %}
